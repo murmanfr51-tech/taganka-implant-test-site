@@ -41,6 +41,12 @@ body {
   gap: 16px;
 }
 
+.brand-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .brand {
   font-size: 22px;
   font-weight: 700;
@@ -48,9 +54,28 @@ body {
   color: #fff7ef;
 }
 
+.brand-subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.68);
+}
+
+.topbar-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
 .topbar-note {
   color: rgba(255,255,255,0.7);
   font-size: 14px;
+}
+
+.topbar-link {
+  color: #f5e7d7;
+  font-size: 14px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(245,231,215,0.35);
 }
 
 .hero-layout {
@@ -335,6 +360,12 @@ h3 {
   padding: 24px;
 }
 
+.feature-card-strong,
+.doctor-card-premium,
+.review-card-strong {
+  box-shadow: 0 12px 36px rgba(17, 24, 39, 0.05);
+}
+
 .before-after-photo,
 .doctor-photo {
   width: 100%;
@@ -345,6 +376,18 @@ h3 {
   background: linear-gradient(135deg, #e8dfd4, #f6f1ea);
   display: block;
   margin-bottom: 16px;
+}
+
+.doctor-meta {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 
 .section-header-inline {
@@ -386,6 +429,12 @@ h3 {
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 20px;
   padding: 24px;
+}
+
+.review-rating {
+  color: #b4873d;
+  letter-spacing: 0.15em;
+  margin-bottom: 12px;
 }
 
 .review-card p {
@@ -447,6 +496,34 @@ textarea {
   resize: vertical;
 }
 
+.final-cta-section {
+  padding: 42px 0;
+}
+
+.final-cta-box {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.final-cta-box p {
+  color: rgba(255,255,255,0.72);
+  max-width: 700px;
+}
+
+.final-cta-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.final-cta-actions span {
+  color: rgba(255,255,255,0.72);
+  font-size: 14px;
+}
+
 @media (max-width: 980px) {
   .hero-layout,
   .grid-4,
@@ -456,11 +533,13 @@ textarea {
   .form-grid,
   .form-box-cta,
   .section-header-inline,
-  .hero-trust-strip {
+  .hero-trust-strip,
+  .final-cta-box {
     grid-template-columns: 1fr;
   }
 
-  .topbar {
+  .topbar,
+  .topbar-side {
     flex-direction: column;
     align-items: flex-start;
   }
