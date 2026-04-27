@@ -5,7 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Центр имплантации на Таганке</title>
   <meta name="description" content="Премиальный тестовый лендинг под центр имплантации на Таганке: имплантация всех зубов, All on 4, All on 6, консультация и расчёт стоимости." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Имплантация зубов на Таганке — All on 4, All on 6, консультация и расчёт" />
+  <meta property="og:description" content="Имплантация зубов на Таганке: одиночная имплантация, All on 4, All on 6, лечение под седацией и понятный план лечения." />
+  <meta property="og:url" content="https://taganka-implant-test-site.vercel.app/" />
+  <meta property="og:site_name" content="Taganka Implant Center" />
+  <meta property="og:image" content="https://taganka-implant-test-site.vercel.app/assets/hero-kotelnicheskaya-real.jpg" />
+  <meta property="og:image:alt" content="Центр имплантации на Таганке" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Имплантация зубов на Таганке — All on 4, All on 6" />
+  <meta name="twitter:description" content="План лечения, расчёт стоимости, имплантация под ключ и консультация в центре Москвы." />
+  <meta name="twitter:image" content="https://taganka-implant-test-site.vercel.app/assets/hero-kotelnicheskaya-real.jpg" />
+  <link rel="canonical" href="https://taganka-implant-test-site.vercel.app/" />
+  <link rel="icon" href="assets/hero-kotelnicheskaya-real.jpg" />
   <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dentist",
+      "name": "Taganka Implant Center",
+      "url": "https://taganka-implant-test-site.vercel.app/",
+      "image": "https://taganka-implant-test-site.vercel.app/assets/hero-kotelnicheskaya-real.jpg",
+      "description": "Центр имплантации на Таганке: одиночная имплантация, All on 4, All on 6, лечение под седацией и понятный план лечения.",
+      "areaServed": "Москва",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Москва",
+        "addressCountry": "RU"
+      },
+      "medicalSpecialty": ["Dentistry", "Implantology"]
+    }
+  </script>
 </head>
 <body>
   <header class="hero">
@@ -476,18 +508,79 @@
               <span>Сориентируем по срокам и стоимости</span>
             </div>
           </div>
-          <form>
+          <form id="lead-form" class="lead-form" novalidate>
             <div class="form-grid">
-              <input type="text" placeholder="Ваше имя" />
-              <input type="tel" placeholder="Телефон" />
+              <label class="field">
+                <span class="sr-only">Ваше имя</span>
+                <input type="text" name="name" placeholder="Ваше имя" autocomplete="name" required />
+              </label>
+              <label class="field">
+                <span class="sr-only">Телефон</span>
+                <input type="tel" name="phone" placeholder="Телефон" autocomplete="tel" required />
+              </label>
             </div>
-            <textarea placeholder="Опишите ситуацию, задачу или напишите, если нужен расчёт под КТ"></textarea>
+            <label class="field">
+              <span class="sr-only">Описание ситуации</span>
+              <textarea name="message" placeholder="Опишите ситуацию, задачу или напишите, если нужен расчёт под КТ"></textarea>
+            </label>
+            <input type="hidden" name="source" value="taganka-implant-test-site.vercel.app" />
             <button type="submit" class="btn btn-primary btn-block">Получить консультацию</button>
             <p class="form-note">Можно оставить заявку для консультации, расчёта стоимости, второго мнения или разбора уже сделанного КТ.</p>
+            <p id="form-status" class="form-status" aria-live="polite"></p>
           </form>
         </div>
       </div>
     </section>
   </main>
+  <script>
+    const form = document.getElementById('lead-form');
+    const status = document.getElementById('form-status');
+
+    if (form && status) {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+
+        if (!payload.name?.trim() || !payload.phone?.trim()) {
+          status.textContent = 'Пожалуйста, заполните имя и телефон.';
+          status.className = 'form-status is-error';
+          return;
+        }
+
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Отправляем…';
+        status.textContent = '';
+        status.className = 'form-status';
+
+        try {
+          const response = await fetch('/api/lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          const result = await response.json().catch(() => ({}));
+
+          if (!response.ok) {
+            throw new Error(result.error || 'Не удалось отправить форму.');
+          }
+
+          form.reset();
+          form.elements.source.value = 'taganka-implant-test-site.vercel.app';
+          status.textContent = 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.';
+          status.className = 'form-status is-success';
+        } catch (error) {
+          status.textContent = error.message || 'Не удалось отправить заявку. Попробуйте ещё раз.';
+          status.className = 'form-status is-error';
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Получить консультацию';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
