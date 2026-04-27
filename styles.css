@@ -287,11 +287,68 @@ h3 {
 .card,
 .offer-card,
 .highlight-box,
-.form-box {
+.form-box,
+.benefit-pill {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 24px;
   padding: 28px;
+}
+
+.benefits-ribbon-section {
+  padding-top: 0;
+}
+
+.benefits-ribbon {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.benefit-pill {
+  padding: 20px 22px;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.04);
+}
+
+.benefit-pill strong {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.benefit-pill span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.contacts-list {
+  margin-top: 18px;
+}
+
+.contact-box p {
+  color: rgba(255,255,255,0.82);
+}
+
+.candidate-split,
+.contacts-split {
+  align-items: stretch;
+}
+
+.form-note {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 8px 2px 0;
+}
+
+.differentiation-section .feature-card,
+.candidate-section .highlight-box,
+.faq-section .feature-card {
+  height: 100%;
+}
+
+.differentiation-section .grid,
+.candidate-section .split {
+  align-items: stretch;
 }
 
 .stat-card {
@@ -534,7 +591,8 @@ textarea {
   .form-box-cta,
   .section-header-inline,
   .hero-trust-strip,
-  .final-cta-box {
+  .final-cta-box,
+  .benefits-ribbon {
     grid-template-columns: 1fr;
   }
 
