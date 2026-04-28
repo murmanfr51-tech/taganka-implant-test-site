@@ -508,7 +508,7 @@
               <span>Сориентируем по срокам и стоимости</span>
             </div>
           </div>
-          <form id="lead-form" class="lead-form" novalidate>
+          <form id="lead-form" class="lead-form" novalidate data-formsubmit-endpoint="https://formsubmit.co/ajax/i@amokshin.ru">
             <div class="form-grid">
               <label class="field">
                 <span class="sr-only">Ваше имя</span>
@@ -524,6 +524,9 @@
               <textarea name="message" placeholder="Опишите ситуацию, задачу или напишите, если нужен расчёт под КТ"></textarea>
             </label>
             <input type="hidden" name="source" value="taganka-implant-test-site.vercel.app" />
+            <input type="hidden" name="_subject" value="Новая заявка с лендинга Taganka Implant Center" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_captcha" value="false" />
             <button type="submit" class="btn btn-primary btn-block">Получить консультацию</button>
             <p class="form-note">Можно оставить заявку для консультации, расчёта стоимости, второго мнения или разбора уже сделанного КТ.</p>
             <p id="form-status" class="form-status" aria-live="polite"></p>
@@ -556,20 +559,26 @@
         status.className = 'form-status';
 
         try {
-          const response = await fetch('/api/lead', {
+          const response = await fetch(form.dataset.formsubmitEndpoint, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
             body: JSON.stringify(payload)
           });
 
           const result = await response.json().catch(() => ({}));
 
-          if (!response.ok) {
-            throw new Error(result.error || 'Не удалось отправить форму.');
+          if (!response.ok || result.success === 'false') {
+            throw new Error(result.message || result.error || 'Не удалось отправить форму.');
           }
 
           form.reset();
           form.elements.source.value = 'taganka-implant-test-site.vercel.app';
+          form.elements._subject.value = 'Новая заявка с лендинга Taganka Implant Center';
+          form.elements._template.value = 'table';
+          form.elements._captcha.value = 'false';
           status.textContent = 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.';
           status.className = 'form-status is-success';
         } catch (error) {
