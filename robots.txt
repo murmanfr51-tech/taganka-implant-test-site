@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://taganka-implant-test-site.vercel.app/sitemap.xml
