@@ -1,1 +1,4 @@
 .vercel
+.env.local
+.tmp_frames/
+.DS_Store
